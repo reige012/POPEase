@@ -1,12 +1,14 @@
 #POPEase
 
 **Program Purpose**
+
 Are you new to population genetics? Not familiar with command-line programs, or
 just want a simple way to run basic pop gen analyses right on your labtop?
 Then POPEase is perfect for you. The purpose of the POPEase program is to help
 novices obtain reliable pop gen analyses for SNP data in just a few simple steps.
 
 **What The Program Does**
+
 POPEase (and the associated software) completes analyses that are
 normally done using a series of GUI or command-line programs that can be complicated
 for beginners.  These programs are integrated into the script and run with a few
@@ -21,6 +23,7 @@ population structure including Structure, CLUMPP or CLUMPPAK, distruct, and Stru
 Harvester.
 
 **Program Caveats**
+
 First and foremost POPEase is written to be compatible with python version
 =>3.0. It will not work with python 2.7 and you will need to update your python to the
 current version. You can get the downloadable version of python [here](https://www.python.org/downloads/release/python-351/).
@@ -54,4 +57,4 @@ Structure (the longest piece) is working.
    programs.
 5. Move a copy of your VCF file (with a .vcf extension) to the created folder
 6. Follow the specific input command line steps (with advanced options) found
-   in the documentation for POPEase. 
+   in the documentation for POPEase.
