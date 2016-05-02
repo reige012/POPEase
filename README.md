@@ -32,7 +32,9 @@ POPEase accepts a VCF file of DNA SNP data. The program is currently only
 able to handle VCF data for diploid individuals and is defaulted to output
 genotypes as missing if the read depth is not >5. EasyPOP also excludes
 non-polymorphic SNPs. Phred Quality scores for VCF input are defaulted to only
-be accepted if they are >20 (99% accurate base call) or better.
+be accepted if they are >20 (99% accurate base call) or better. However, if desired,
+each of these caveats can be altered in the SPID_VCFtoSTRUCT file following the
+instructions in the documentation.
 
 Lastly, POPEase is written to be easy to use on your personal laptop or
 desktop. It can take a long time to run depending on the size of your data set
@@ -40,7 +42,17 @@ and may require the computer to be on and working for long periods of time.
 Please be aware of that when starting the program. You cannot pause it while
 Structure (the longest piece) is working.
 
-##Instructions for Use
+##Dependencies
+All dependencies can be downloaded via anaconda or from their websites listed
+in the documentation.
+1. Python 3.0
+2. Numpy
+3. MatPlotLib
+4. Pandas
+5. Structure software
+6. PGDSpider Software
+
+##How to Get Started
 1. Create a specific folder on your computer to deposit the required scripts and
    associated programs to run POPEase
 2. Download all files and scripts from the POPEase repository on GitHub and save
