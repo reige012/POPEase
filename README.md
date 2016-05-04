@@ -19,15 +19,15 @@ data set.
 This single python script bypasses the need to understand parsing your file into
 the correct format for the downstream analyses, it bypasses FSAT and/or Genepop to
 provide population genetics statistics, and it bypasses all programs associated with
-population structure including Structure, CLUMPP or CLUMPPAK, distruct, and Structure
+population structure including Structure, CLUMPP or CLUMPAK, distruct, and Structure
 Harvester.
 
 **Program Caveats**
 
 First and foremost POPEase is written to be compatible with python version
 =>3.0. It will not work with python 2.7 and you will need to update your python to the
-current version. You can get the downloadable version of python [here](https://www.python.org/downloads/release/python-351/)
-or we highly suggest downloading [Anaconda](https://www.continuum.io/downloads) if you haven't done so already.
+current version. We highly suggest downloading [Anaconda](https://www.continuum.io/downloads) which
+comes equipped with the latest version of Python. Alternately, you can just download Python [here](https://www.python.org/downloads/release/python-351/).
 
 POPEase accepts a VCF file of DNA SNP data. The program is currently only
 able to handle VCF data for diploid individuals and is defaulted to output
@@ -35,7 +35,7 @@ genotypes as missing if the read depth is not >5. EasyPOP also excludes
 non-polymorphic SNPs. Phred Quality scores for VCF input are defaulted to only
 be accepted if they are >20 (99% accurate base call) or better. However, if desired,
 most of these caveats can be altered in the spid.spid file following the
-instructions in the documentation.
+instructions in the [POPEase_Documentation](https://github.com/reige012/POPEase/blob/master/POPEase_Documentation.pdf).
 
 POPEase is written to be easy to use on your personal laptop or
 desktop. It can take a long time to run depending on the size of your data set
@@ -45,7 +45,7 @@ Structure (the longest piece) is working.
 
 ##Dependencies
 All dependencies can be downloaded via anaconda or from their websites listed
-in the documentation.
+in the [POPEase_Documentation](https://github.com/reige012/POPEase/blob/master/POPEase_Documentation.pdf).
 1. Python 3.0
 2. Numpy
 3. MatPlotLib
@@ -55,7 +55,7 @@ in the documentation.
 7. Java
 
 ##How to Get Started
-1. It is highly recommended that you download and use Anaconda as your command line for this program, especially if you are not familiar with working on the command line.  The rest of the directions will be geared towards Anaconda users. Installing Anaconda will automatically install Python 3.0 for you if you do not have it on your system already. Download Anaconda here: https://www.continuum.io/downloads
+1. It is highly recommended that you download and use Anaconda as your command line for this program, especially if you are not familiar with working on the command line.  The rest of the directions will be geared towards Anaconda users. Installing Anaconda will automatically install Python 3.0 for you if you do not have it on your system already. Download Anaconda [here](https://www.continuum.io/downloads)
 2. Create a specific folder on your computer that will be used to deposit the required scripts and associated programs to run POPEase.
 3. Download all files and scripts from the POPEase repository on GitHub and save them into the folder you created in the first step. **This is necessary to run the program properly.**
     * Navigate to https://github.com/reige012/POPEase
@@ -73,7 +73,7 @@ in the documentation.
         * structure (executable file)
 6. Move a copy of your own VCF file to the folder you made in step 2.
     * Note: make sure your VCF file has a .vcf extension
-7. That’s the basic setup. To run the programs please follow the detailed instructions in Making POPEase Work  in the documentation.
+7. That’s the basic setup. To run POPEase please follow the detailed instructions in Making POPEase Work in the [POPEase_Documentation](https://github.com/reige012/POPEase/blob/master/POPEase_Documentation.pdf) (Pg.6).
 
 #Questions
 For any questions, concerns or information related to POPEase please contact:
