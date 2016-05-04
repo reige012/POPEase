@@ -18,7 +18,7 @@ VCF_PARSER_PL_QUESTION=false
 # Do you want to exclude loci with only missing data?
 VCF_PARSER_EXC_MISSING_LOCI_QUESTION=true
 # Select population definition file:
-VCF_PARSER_POP_FILE_QUESTION=C:\\Users\\Alicia\\Desktop\\Important Documents\\LSU\\Classes\\Bioprogramming\\Software Project\\Pop_ID_File.txt
+VCF_PARSER_POP_FILE_QUESTION=/Users/user/Desktop/User_Created_Directory/Examples/Pop_ID_File.txt
 # Only output SNPs with a phred-scaled quality of at least:
 VCF_PARSER_QUAL_QUESTION=20
 # Do you want to include non-polymorphic SNPs?

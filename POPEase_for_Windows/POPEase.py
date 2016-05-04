@@ -23,22 +23,28 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
 
-"""class FullPaths(argparse.Action):
-    Expand user- and relative-paths. Obtained from Brant Faircloth.
-    https://github.com/biolprogramming/assignment-17/blob/master/answers/brantfaircloth/task1.py
-    def __call__(self, parser, namespace, values, option_string=None):
-        setattr(namespace, self.dest, os.path.abspath((values)))"""
-
-
 def parser_get_args():
     """Collect the path to the SNP data (forward and reverse), vcf data, and
        base name for output files"""
     parser = argparse.ArgumentParser(
-        description="""Input the path to species name file and desired
-            output file name"""
+        description="""Input the desired information to run POPEase."""
         )
     parser.add_argument(
-            '--directorypath',
+            "--runstructure",
+            dest='runstructure',
+            action="store_true",
+            default=False,
+            help="""Add this flag if you want to run structure.""",
+        )
+    parser.add_argument(
+            "--computebestk",
+            dest='computebestK',
+            action="store_true",
+            default=False,
+            help="""Add this flag if you want an output of potential best K values after running structure.""",
+        )
+    parser.add_argument(
+            '--dirpath',
             required=True,
             type=str,
             help='Enter the full path to the folder/directory where the required programs are located.'
@@ -47,16 +53,22 @@ def parser_get_args():
             '--vcfpath',
             required=True,
             type=str,
-            help='Enter the full path to the database.'
+            help='Enter the full path to the input vcf file.'
         )
     parser.add_argument(
-            '--outputfolder',
+            '--spidpath',
             required=True,
             type=str,
-            help='Enter the desired name for the output folder.'
+            help='Enter the full path to the spidfile.'
         )
     parser.add_argument(
-            '--structurepops',
+            '--outputfile',
+            required=True,
+            type=str,
+            help='Enter the desired base name for the output files.'
+        )
+    parser.add_argument(
+            '--kpops',
             required=True,
             type=str,
             help='Enter the maximum populations (K) to test when running structure.'
@@ -82,7 +94,7 @@ def parser_get_args():
     return parser.parse_args()
 
 
-def pgd_structure(outputfolder, inputfile, directorypath):
+def pgd_structure(outputfolder, inputfile, directorypath, spid):
     """Converts the user's VCF file into a STRUCTURE-formatted file"""
     mypath = os.path.join(directorypath + "/STRUCTURE_directory")
     if not os.path.isdir(mypath):
@@ -95,14 +107,14 @@ def pgd_structure(outputfolder, inputfile, directorypath):
     outputfileabspath = os.path.abspath(outputfile_pgdstruct)
     STRUC_PGD_params = ['PGDSpider2-cli.exe', '-inputfile', inputfile,
         '-inputformat', 'VCF', '-outputfile', outputfile_pgdstruct, '-outputformat',
-        'STRUCTURE', '-spid', 'SPID_VCFtoSTRUCT.spid']
+        'STRUCTURE', '-spid', spid]
     with open(PGDStructstdout, 'w') as stdout_file:
         with open(PGDStructstderr, 'w') as stderr_file:
             my_proc1 = subprocess.run(STRUC_PGD_params,
             stdout=stdout_file,
             stderr=stderr_file,
             universal_newlines=True)
-    print("\nCreated output file in Structure format: {}".format(outputfile_pgdstruct))
+    print("\nCreated output file in Structure format: {}\n".format(outputfile_pgdstruct))
     return path_to_new_directory, outputfileabspath
 
 
@@ -125,15 +137,13 @@ def structure_run(structK, loci, individuals, numruns, pgd_structformatted_file,
                     stdout=struct_stdout_file,
                     stderr=struct_stderr_file,
                     universal_newlines=True)
-    print('''\nFiles created for this process are standard out files,
-    standard error files and structure run data files.  Each file is identified
-    by the number of populations (K) being tested in that run, followed by an
-    underscore and the number of the run.\n
-    The ln values will now be compiled and the best estimate for K will be
-    computed. Please wait.''')
+    print('''\nOutput files created for this process can be found in the STRUCTURE_Directory.
+    Please see documentation for specific output file details.\n\n If you opted to compute best K then those values will be computed now.''')
 
 
 def compute_ln(structK, directorypath):
+    """Collects the Mean_LnP(D) from the structure run files and obtains a mean
+    for each K value"""
     os.chdir(directorypath)
     with open('Best_K_Analysis.csv', 'w') as LN_output:
         headers = ['K', 'Mean_LnP(D)', 'StDevLN']
@@ -163,6 +173,7 @@ def compute_ln(structK, directorypath):
 
 
 def calculate_ln1P(directorypath, path):
+    """Expands the data to obtain Delta K and prints graphs"""
     os.chdir(directorypath)
     dataframe = pd.read_csv(path)
     list1 = (-(dataframe.loc[:, 'Mean_LnP(D)'] - dataframe.loc[:, 'Mean_LnP(D)'].shift(-1)))
@@ -185,63 +196,74 @@ def calculate_ln1P(directorypath, path):
         plt.title('Mean_LnP(D)')
         pdf.savefig()  # saves the current figure into a pdf page
         plt.close()
-
         dataframe.plot(x='K', y='Delta_K')
         plt.savefig("DeltaK_figure.png", bbox_inches='tight')
         plt.title('Delta K')
         pdf.savefig()
         plt.close()
-    print("\nThe data for best K value based on Mean_LnP(D) is below:")
-    print("{}\n".format(ln_row))
-    print("The data from best K value based on Delta K is below:")
-    print("{}\n".format(deltak_row))
-    print('''These "best" K values are only suggestions based on the lowest
-    value for Mean_LnP(D) and the highest value for Delta K. You should always
-    check the Structure documentation and consider your data and study system
-    carefully before choosing a final K value.\n''')
     with open(path, 'w') as csvfinal:
         dataframe.to_csv(csvfinal)
-    print('''The output files include a PDF (Best_K_Figures.pdf) containing
-    graphs for Mean_LnP(D) and Delta K as well as a .png figure file for each
-    graph. Additionally, a CSV file (Best_K_Analysis.csv) of all related data
-    was created.\nThis program is finished running. To obtain a graphical
-    display of the Structure results you should see the documentation.''')
-
-
-"""def pgd_fstat():
-    #dkfneaifn """
+    with open('Deter_Best_K_info.txt', 'w') as output2:
+        output2.write("\nThe data for best K value based on Mean_LnP(D) is below:")
+        output2.write("{}\n".format(ln_row))
+        output2.write("The data from best K value based on Delta K is below:")
+        output2.write("{}\n".format(deltak_row))
+        output2.write('''These "best" K values are only SUGGESTIONS based on the lowest
+        value for Mean_LnP(D) and the highest value for Delta K. You should always
+        check the Structure documentation and consider your data and study system
+        carefully before choosing a final K value.\n''')
+        output2.write('''The output files include a PDF (Best_K_Figures.pdf) containing
+        graphs for Mean_LnP(D) and Delta K as well as a .png figure file for each
+        graph. Additionally, a CSV file (Best_K_Analysis.csv) of all related data
+        was created.\nThis program is finished running. To obtain a graphical
+        display of the Structure results you should see the documentation.''')
+    print('''Output files from --computebestk can be found in the STRUCTURE_Directory.\n
+The program is now complete. Thanks!\n''')
 
 
 def main():
     args = parser_get_args()
     inputfile = os.path.abspath(args.vcfpath)
-    directorypath = os.path.abspath(args.directorypath)
+    directorypath = os.path.abspath(args.dirpath)
     numruns = args.numruns
-    path_to_new_directory, outputfileabspath = pgd_structure(args.outputfolder, inputfile, directorypath)
-    print('''\nPlease check your STRUCTURE-formatted file for missing data
-    Missing or bad quality data is indicated by a -9. You may want to remove
-    individuals with high amounts of missing data. Please follow instructions
-    in the documentation to do so and re-run this program. If your data is
-    correct and ready for running through STRUCTURE please enter "Y". If not,
-    please enter "N", correct your VCF file and rerun this program.''')
-    y = ((str(input())).lower())
-    if y != "y" or "n":
-        print("Please enter either Y or N.")
-        y = (str(input())).lower()
-        if y == "y":
-            print('''Great, STRUCTURE will run now. This may take a significant
-    amount of time depending on the size of your data set. Please do not
-    close this window or type. If the curser is blinking the program
-    is running.''')
-            outputfile_struct_run = os.path.join(path_to_new_directory, args.outputfolder + '_STRUCTURERUN')
-            structK = args.structurepops
-            loci = args.loci
-            individuals = args.individuals
-            structure_run(structK, loci, individuals, numruns, outputfileabspath, outputfile_struct_run, path_to_new_directory)
+    structK = args.kpops
+    loci = args.loci
+    spid = os.path.abspath(args.spidpath)
+    individuals = args.individuals
+    path_to_new_directory, outputfileabspath = pgd_structure(args.outputfile, inputfile, directorypath, spid)
+    if args.runstructure is True:
+        print('''\nPlease check your STRUCTURE-formatted file for missing data
+        Missing or bad quality data is indicated by a -9. You may want to remove
+        individuals with high amounts of missing data. Please follow instructions
+        in the documentation to do so and re-run this program. If your data is
+        correct and ready for running through STRUCTURE please enter "Y". If not,
+        please enter "N", correct your data and rerun this program.''')
+        y = ((str(input())).lower())
+        if y != "y" or "n":
+            print("Please enter either Y or N.")
+            y = (str(input())).lower()
+            if y == "y":
+                print('''Great, STRUCTURE will run now. This may take a significant
+                amount of time depending on the size of your data set. Please do not
+                close this window or type. If on Windows, the curser will blink while
+                the program is running.''')
+                outputfile_struct_run = os.path.join(path_to_new_directory, args.outputfile + '_STRUCTURERUN')
+                structure_run(structK, loci, individuals, numruns, outputfileabspath, outputfile_struct_run, path_to_new_directory)
+                if args.computebestK is True:
+                    path = compute_ln(structK, path_to_new_directory)
+                    calculate_ln1P(path_to_new_directory, path)
+                else:
+                    print("Structure is complete. Exiting program. Thanks!")
+                    sys.exit()
+            if y == "n":
+                print('Exiting program.')
+                sys.exit()
+    else:
+        if args.computebestK is True:
             path = compute_ln(structK, path_to_new_directory)
             calculate_ln1P(path_to_new_directory, path)
-        if y == "n":
-            print('Exiting program.')
+        else:
+            print("Structure is complete. Exiting program. Thanks!")
             sys.exit()
 
 
