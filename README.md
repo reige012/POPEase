@@ -56,7 +56,7 @@ in the documentation.
 ##How to Get Started
 1. It is highly recommended that you download and use Anaconda as your command line for this program, especially if you are not familiar with working on the command line.  The rest of the directions will be geared towards Anaconda users. Installing Anaconda will automatically install Python 3.0 for you if you do not have it on your system already. Download Anaconda here: https://www.continuum.io/downloads
 2. Create a specific folder on your computer that will be used to deposit the required scripts and associated programs to run POPEase.
-3. Download all files and scripts from the POPEase repository on GitHub and save them into the folder you created in step 1. THIS IS NECESSARY TO RUN THE PROGRAM CORRECTLY.
+3. Download all files and scripts from the POPEase repository on GitHub and save them into the folder you created in the first step. **This is necessary to run the program properly.**
     * Navigate to https://github.com/reige012/POPEase
     * Click the “Download Zip” button on the right of the page
     * Save these files into the folder you created in step 2.
