@@ -10,7 +10,7 @@ VCF_PARSER_REGION_QUESTION=
 # What is the ploidy of the data?
 VCF_PARSER_PLOIDY_QUESTION=DIPLOID
 # Only output following individuals (ind1, ind2, ind4, ...):
-VCF_PARSER_IND_QUESTION=ALB1_sorted.bam, ALB43_sorted.bam, SOE105_sorted.bam, NOE218_sorted.bam, CAT283_sorted.bam
+VCF_PARSER_IND_QUESTION=
 # Output genotypes as missing if the read depth of a position for the sample is below:
 VCF_PARSER_READ_QUESTION=
 # Take most likely genotype if "PL" or "GL" is given in the genotype field?

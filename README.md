@@ -26,14 +26,15 @@ Harvester.
 
 First and foremost POPEase is written to be compatible with python version
 =>3.0. It will not work with python 2.7 and you will need to update your python to the
-current version. You can get the downloadable version of python [here](https://www.python.org/downloads/release/python-351/).
+current version. You can get the downloadable version of python [here](https://www.python.org/downloads/release/python-351/)
+or we highly suggest downloading [Anaconda](https://www.continuum.io/downloads) if you haven't done so already.
 
 POPEase accepts a VCF file of DNA SNP data. The program is currently only
 able to handle VCF data for diploid individuals and is defaulted to output
 genotypes as missing if the read depth is not >5. EasyPOP also excludes
 non-polymorphic SNPs. Phred Quality scores for VCF input are defaulted to only
 be accepted if they are >20 (99% accurate base call) or better. However, if desired,
-each of these caveats can be altered in the SPID_VCFtoSTRUCT file following the
+most of these caveats can be altered in the spid.spid file following the
 instructions in the documentation.
 
 POPEase is written to be easy to use on your personal laptop or
@@ -69,7 +70,13 @@ in the documentation.
     * From Console folder (Structure’s program folder) move three files:
         * extraparams
         * mainparams
-        * structure (unix executable file)
+        * structure (executable file)
 6. Move a copy of your own VCF file to the folder you made in step 2.
     * Note: make sure your VCF file has a .vcf extension
 7. That’s the basic setup. To run the programs please follow the detailed instructions in Making POPEase Work  in the documentation.
+
+#Questions
+For any questions, concerns or information related to POPEase please contact:
+Alicia Reigel: areige1@lsu.edu
+Ph.D. Candidate
+Louisiana State University
