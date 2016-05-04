@@ -2,12 +2,31 @@
 # encoding: utf-8
 
 """
+Program Purpose
 
+Are you new to population genetics? Not familiar with command-line programs, or
+just want a simple way to run basic pop gen analyses right on your labtop? Then
+POPEase is perfect for you. The purpose of the POPEase program is to help novices
+obtain reliable pop gen analyses for SNP data in just a few simple steps.
 
-Edited by Alicia Reigel. 15 April 2016.
-Copyright Alicia Reigel. Louisiana State University. 15 April 2016. All
+What The Program Does
+
+POPEase (and the associated software) completes analyses that are normally done
+using a series of GUI or command-line programs that can be complicated for
+beginners. These programs are integrated into the script and run with a few
+simple command-line flags detailed in the program documents. The programs
+integrated into this script are standard analyses when examining population
+genetics of your data set.
+
+This single python script bypasses the need to understand parsing your file into
+ the correct format for the downstream analyses, it bypasses FSAT and/or Genepop
+ to provide population genetics statistics, and it bypasses all programs
+ associated with population structure including Structure, CLUMPP or CLUMPAK,
+ distruct, and Structure Harvester.
+
+Edited by Alicia Reigel. 4 May 2016.
+Copyright Alicia Reigel. Louisiana State University. 4 May 2016. All
 rights reserved.
-
 """
 
 import csv
